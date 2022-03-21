@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+# Coinlist
+
+Todo
+
+* Authentication
+* Live numbers
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
