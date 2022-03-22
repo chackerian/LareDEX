@@ -1,29 +1,35 @@
 import React, { useState, Image } from 'react';
-import { render } from 'react-dom';
-import { AgGridReact } from 'ag-grid-react';
-
 import logo from './logo.png'
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Routes,
+  Link,
+  useNavigate
 } from "react-router-dom";
-
-import { Button } from 'react-bootstrap';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import './App.css';
-import LoginModal from './LoginModal.js'
-import RegisterModal from './RegisterModal.js'
+import LoginModal from './modal/LoginModal.js'
+import RegisterModal from './modal/RegisterModal.js'
+import HomeScreen from './screen/HomeScreen.js'
+import AboutScreen from './screen/AboutScreen.js'
+import ZebraCoinScreen from './screen/ZebraCoinScreen.js'
+import ListingScreen from './screen/ListingScreen.js'
+import Navbar from './screen/Navbar.js'
+import NavbarLogged from './screen/NavbarLogged.js'
 
-import { initializeApp } from 'firebase/app';
+import { emailValidator } from './helpers/emailValidator'
+import { passwordValidator } from './helpers/passwordValidator'
 
-// TODO: Replace the following with your app's Firebase project configuration
-const firebaseConfig = {
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+
+var firebaseConfig = {
   apiKey: "AIzaSyAbMESaB6SiSbRq4a9Rxan9ITyPhJ8nzpU",
   authDomain: "coinlist-ccbdd.firebaseapp.com",
   projectId: "coinlist-ccbdd",
@@ -33,85 +39,61 @@ const firebaseConfig = {
   measurementId: "G-0M4VL5ESD8"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+const auth = app.auth();
+
+const AuthorizationContext  = React.createContext();
 
 function App() {
 
     const [show, setShow] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
+    const [user, setUser] = useState(null)
 
-    const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
 
-    const handleCloseSignup = () => setShowSignup(false);
     const handleShowSignup = () => setShowSignup(true);
+    const handleCloseSignup = () => setShowSignup(false);
 
-    const [rowData] = useState([
-       { '#': 1, name: "Coin", price: "Celica", '7d%': 35000, 'market cap': 20, 'volume (24hr)': 20, 'tweets (24hr)': 20, 'Tweets last 7 days': 30, 'Price last 7 days': 100 }
-   ]);
-
-    const onLoginPressed = () => {
-      const emailError = emailValidator(email.value)
-      const passwordError = passwordValidator(password.value)
-      if (emailError || passwordError) {
-        setEmail({ ...email, error: emailError })
-        setPassword({ ...password, error: passwordError })
-        return
-      }
-
-      console.log(email, password)
-      firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-        .then((userCredential) => {
-          // Signed in
-          var user = userCredential.user;
-          console.log("logging in", user)
-          props.route.params.login(user)
-          // ...
-        })
-        .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-        });
-
+    function login(a) {
+      setUser(a)
     }
-   
-   const [columnDefs] = useState([
-       { field: '#', width: 120 },
-       { field: 'name', width: 120 },
-       { field: 'price', width: 120 },
-       { field: '7d%', width: 120 },
-       { field: 'market cap', width: 120 },
-       { field: 'volume (24hr)', width: 150 },
-       { field: 'tweets (24hr)', width: 150 },
-       { field: 'Tweets last 7 days', width: 150 },
-       { field: 'Price last 7 days', width: 150 },
-   ])
 
-
+    function logout(){
+      setUser(null)
+    }
+  
   return (
     <div className="App">
-      <header className="NavBar">
-        <img src={logo} className="logo" />
-        <a href="/about">About</a>
-        <a href="/zebracoin">Zebra Coin (ZC)</a>
-        <a href="listing">Listing</a>
-        <Button variant="primary" onClick={handleShow}>
-          Login
-        </Button>
-        <Button variant="primary" onClick={handleShowSignup}>
-          Sign Up
-        </Button>
-      </header>
-      <LoginModal show={show} close={handleClose}/>
-      <RegisterModal show={showSignup} close={handleCloseSignup}/>
-       <div className="ag-theme-alpine" style={{height: 400, width: 1400, margin: '0 auto'}}>
-           <AgGridReact
-               rowData={rowData}
-               columnDefs={columnDefs}>
-           </AgGridReact>
-       </div>
+
+      <Router>
+          <header className="NavBar">
+            <Link to="/"><img src={logo} className="logo" /> </Link>
+            <Link to="/about">About</Link>
+            <Link to="/zebracoin">Zebra Coin (ZC)</Link>
+            <Link to="/listing">Listing</Link>
+
+            <AuthorizationContext.Provider value={user}>
+              {!!user ? <NavbarLogged logout={logout} /> : <Navbar handleShow={handleShow} handleShowSignup={handleShowSignup}/>}
+            </AuthorizationContext.Provider>
+            
+          </header>
+
+            <LoginModal show={show} close={handleClose} login={login}/>
+            <RegisterModal show={showSignup} close={handleCloseSignup} login={login}/>
+          <Routes>
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/about" element={<AboutScreen />} />
+            <Route path="/zebracoin" element={<ZebraCoinScreen />} />
+            <Route path="/listing" element={<ListingScreen />} />
+          </Routes>
+      </Router>
     </div>
   );
 }
 
-export default App;
+
+export { 
+  auth, App as default 
+}

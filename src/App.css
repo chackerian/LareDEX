@@ -62,6 +62,10 @@ button {
   display: block;
 }
 
+.divButtons {
+  text-align: center;
+}
+
 .divButtons button {
   margin: 20px;
 }

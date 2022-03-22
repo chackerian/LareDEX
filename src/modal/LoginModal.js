@@ -1,8 +1,8 @@
-import React, { useState, View } from 'react'
+import React, { useState } from 'react'
 import { TextField } from '@mui/material'
 
-import { emailValidator } from './helpers/emailValidator'
-import { passwordValidator } from './helpers/passwordValidator'
+import { emailValidator } from '../helpers/emailValidator'
+import { passwordValidator } from '../helpers/passwordValidator'
 
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import 'firebase/auth';
@@ -11,6 +11,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 export default function LoginModal(props) {
   const [email, setEmail] = useState({ value: '', error: '' })
+  const [username, setUsername] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const [show, setShow] = useState(false);
 
@@ -55,9 +56,8 @@ export default function LoginModal(props) {
         </Modal.Header>
         <Modal.Body>
         <div className="modalFields">
-           <TextField id="filled-basic" label="Email" variant="filled" />
-           <TextField id="filled-basic" label="Username" variant="filled" />
-           <TextField id="filled-basic" label="Password" type="password" variant="filled" />
+           <TextField id="filled-basic" label="Username" variant="filled" onChange={(text) => setUsername({ value: text.target.value, error: '' })} />
+           <TextField id="filled-basic" label="Password" type="password" variant="filled" onChange={(text) => setPassword({ value: text.target.value, error: '' })} />
         </div>
         <div className="divButtons">
           <Button onClick={login}>
