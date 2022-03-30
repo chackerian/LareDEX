@@ -1,4 +1,4 @@
-# Coinlist
+# Lare DEX
 
 Todo
 
