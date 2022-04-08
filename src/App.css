@@ -1,27 +1,73 @@
-/*@tailwind base;
-@tailwind components;*/
-/*@tailwind utilities;*/
-
-$bg: #332f35;
-$fg: lighten($bg,20%);
-$borderWidth: 3px;
-
-body {
-  background: $bg;
-  font-family: roboto;
+.collapsible {
+  background-color: #e8ecf4;
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
 }
 
-input[type=radio] {
-  position: absolute;
-  visibility: hidden;
+input[type="number"] {
+    border: 1px solid #e5e5e5;
+    padding: 1em;
+}
+
+.voting {
+  background: white;
+  width: inherit;
+}
+
+.VotingButtons {
+  width: 10em;
+  background: black;
+  display: flex;
+}
+
+.thumbsUp {
+  background: none;
+  display: inline-block;
+  color: green !important;
+  padding: 0.1em;
+}
+
+.thumbsDown {
+  background: none;
+  display: inline-block;
+  color: red !important;
+  padding: 0.1em;
+}
+
+.laredex {
+  font-size: 1.5em !important;
+}
+
+.menu {
+  font-size: 0.8em !important;
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
   display: none;
+  transition: max-height 0.2s ease-out;
+}
+
+form {
+  /* This bit sets up the horizontal layout */
+  display:flex;
+  flex-direction:row;
+  
+
+  /* I've used padding so you can see the edges of the elements. */
+  padding:2px;
 }
 
 label {
-  color: lighten($bg,40%);
   display: inline-block;
   cursor: pointer;
-  font-weight: bold;
   padding: 5px 20px;
 }
 
@@ -31,9 +77,32 @@ input[type=radio]:checked + label{
   border-radius: 1em;
 }
 
+input {
+  /* Tell the input to use all the available space */
+  flex-grow:2;
+}
+
+input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
 label + input[type=radio] + label {
   border-left: solid $borderWidth $fg;
 }
+
+.buycrypto {
+  padding: 4em;
+  background: white;
+  width: 87%;
+}
+
+.percents p {
+  font-size: 0.5em !important;
+  font-family: 'Raleway';
+}
+
 .radio-group {
   border: solid $borderWidth $fg;
   display: inline-block;
@@ -80,6 +149,13 @@ label + input[type=radio] + label {
   height: 140px !important;
 }
 
+.drawing {
+  font-size: 27px !important;
+  font-family: Arial;
+  margin: 0;
+  color: #55667D;
+}
+
 .jackpot {
   font-weight: bold;
   font-size: 1.5em;
@@ -88,11 +164,11 @@ label + input[type=radio] + label {
   margin:  0;
 }
 
-/*select {
+select {
   padding: 15px;
   border-radius: 3px;
   height: 50px;
-  color: #ffffff;
+  color: black !important;
   padding-right: 30px;
   font-size: 14px;
   border-color: blue;
@@ -101,9 +177,9 @@ label + input[type=radio] + label {
   -webkit-appearance: none;
   appearance: none;
   border: none;
-  background: blue url("data:image/svg;utf8,<svg preserveAspectRatio='xMidYMid meet' data-bbox='43 43 114 114' viewBox='43 43 114 114' height='25' width='25' xmlns='http://www.w3.org/2000/svg' data-type='color' role='presentation' aria-hidden='true' aria-labelledby='svgcid-qkt1zze455h2'><title id='svgcid-qkt1zze455h2'></title><g><path d='M99.999 43C68.57 43 43 68.57 43 100s25.57 57 56.999 57S157 131.43 157 100s-25.572-57-57.001-57zm-48.587 57c0-1.723.094-3.427.27-5.106 4.069-3.703 12.211-7.377 23.652-9.638a145.705 145.705 0 0 0-.738 14.713c0 5.074.256 10.028.745 14.775-11.446-2.261-19.59-5.937-23.659-9.643a48.558 48.558 0 0 1-.27-5.101zm31.594-.031c0-5.772.341-11.121.918-16.046a137.8 137.8 0 0 1 16.046-.918c5.797 0 11.165.343 16.104.925.58 4.925.919 10.269.919 16.039 0 5.794-.341 11.161-.925 16.097-4.936.582-10.302.925-16.097.925-5.77 0-11.114-.339-16.039-.918a137.305 137.305 0 0 1-.926-16.104zm41.658-14.706c11.477 2.276 19.62 5.973 23.666 9.698a49.466 49.466 0 0 1 0 10.071c-4.047 3.728-12.191 7.427-23.67 9.701.486-4.742.745-9.692.745-14.764-.001-5.05-.257-9.977-.741-14.706zm20.937-2.038c-5.957-2.918-13.544-5.208-22.123-6.695-1.478-8.568-3.759-16.153-6.664-22.115 13.301 4.921 23.877 15.504 28.787 28.81zm-40.496-31.543c3.703 4.069 7.377 12.213 9.64 23.657a145.41 145.41 0 0 0-14.775-.745c-5.052 0-9.986.256-14.712.74 2.261-11.442 5.933-19.584 9.636-23.653 1.679-.176 3.382-.27 5.105-.27s3.427.095 5.106.271zm-21.921 2.731C80.281 60.372 78 67.955 76.522 76.521c-8.568 1.478-16.148 3.759-22.108 6.666 4.917-13.29 15.485-23.858 28.77-28.774zm-28.771 62.398c5.962 2.907 13.548 5.186 22.121 6.666 1.485 8.579 3.774 16.166 6.693 22.124-13.308-4.908-23.894-15.487-28.814-28.79zm40.552 31.518c-3.726-4.044-7.424-12.189-9.701-23.666 4.729.484 9.656.74 14.706.74 5.072 0 10.022-.259 14.764-.747-2.274 11.482-5.973 19.627-9.698 23.673a49.28 49.28 0 0 1-10.071 0zm21.809-2.728c2.921-5.96 5.208-13.549 6.693-22.135 8.586-1.485 16.177-3.772 22.134-6.693-4.912 13.319-15.506 23.914-28.827 28.828z' fill='#2F54DD' data-color='1'></path></g></svg>") no-repeat;
+  /*background: blue url("data:image/svg;utf8,<svg preserveAspectRatio='xMidYMid meet' data-bbox='43 43 114 114' viewBox='43 43 114 114' height='25' width='25' xmlns='http://www.w3.org/2000/svg' data-type='color' role='presentation' aria-hidden='true' aria-labelledby='svgcid-qkt1zze455h2'><title id='svgcid-qkt1zze455h2'></title><g><path d='M99.999 43C68.57 43 43 68.57 43 100s25.57 57 56.999 57S157 131.43 157 100s-25.572-57-57.001-57zm-48.587 57c0-1.723.094-3.427.27-5.106 4.069-3.703 12.211-7.377 23.652-9.638a145.705 145.705 0 0 0-.738 14.713c0 5.074.256 10.028.745 14.775-11.446-2.261-19.59-5.937-23.659-9.643a48.558 48.558 0 0 1-.27-5.101zm31.594-.031c0-5.772.341-11.121.918-16.046a137.8 137.8 0 0 1 16.046-.918c5.797 0 11.165.343 16.104.925.58 4.925.919 10.269.919 16.039 0 5.794-.341 11.161-.925 16.097-4.936.582-10.302.925-16.097.925-5.77 0-11.114-.339-16.039-.918a137.305 137.305 0 0 1-.926-16.104zm41.658-14.706c11.477 2.276 19.62 5.973 23.666 9.698a49.466 49.466 0 0 1 0 10.071c-4.047 3.728-12.191 7.427-23.67 9.701.486-4.742.745-9.692.745-14.764-.001-5.05-.257-9.977-.741-14.706zm20.937-2.038c-5.957-2.918-13.544-5.208-22.123-6.695-1.478-8.568-3.759-16.153-6.664-22.115 13.301 4.921 23.877 15.504 28.787 28.81zm-40.496-31.543c3.703 4.069 7.377 12.213 9.64 23.657a145.41 145.41 0 0 0-14.775-.745c-5.052 0-9.986.256-14.712.74 2.261-11.442 5.933-19.584 9.636-23.653 1.679-.176 3.382-.27 5.105-.27s3.427.095 5.106.271zm-21.921 2.731C80.281 60.372 78 67.955 76.522 76.521c-8.568 1.478-16.148 3.759-22.108 6.666 4.917-13.29 15.485-23.858 28.77-28.774zm-28.771 62.398c5.962 2.907 13.548 5.186 22.121 6.666 1.485 8.579 3.774 16.166 6.693 22.124-13.308-4.908-23.894-15.487-28.814-28.79zm40.552 31.518c-3.726-4.044-7.424-12.189-9.701-23.666 4.729.484 9.656.74 14.706.74 5.072 0 10.022-.259 14.764-.747-2.274 11.482-5.973 19.627-9.698 23.673a49.28 49.28 0 0 1-10.071 0zm21.809-2.728c2.921-5.96 5.208-13.549 6.693-22.135 8.586-1.485 16.177-3.772 22.134-6.693-4.912 13.319-15.506 23.914-28.827 28.828z' fill='#2F54DD' data-color='1'></path></g></svg>") no-repeat;*/
   background-position: right 5px top 50%;
-}*/
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -116,13 +192,51 @@ label + input[type=radio] + label {
   src: url("./Avenir-Heavy.ttf");
 }
 
+.liquidity {
+  background: #e8ecf4;
+  font-family: 'Raleway';
+  padding: 0.2em;
+  margin: 0px 0em 1px 5em;
+  width: 900px;
+}
+
 .pooltable {
-  background: white;
+  background: #e8ecf4;
+  width: inherit;
 }
 
 table {
   padding: 3em;
+  border-radius: 0.4em;
+}
+
+th {
+  font-family: 'Raleway';
+}
+
+.pooltitle {
+  color: rgb(5 22 82);
+}
+
+.poolreward {
+  margin-left: 1em;
+}
+
+.pooltitleSpan {
+  border: 1px solid;
   border-radius: 1em;
+  cursor: pointer;
+  padding: 20px;
+  font-family: 'Raleway';
+  font-weight: bold;
+  margin: 0;
+  --shd: 0.86px 0.52px 4px 0px rgba(0,0,0,0.6);
+  box-shadow: var(--shd,0 1px 4px rgba(0,0,0,.6));
+}
+
+.pooltitleSpan:hover {
+  border-color: lightgreen;
+  color: blue;
 }
 
 .connect {
@@ -139,8 +253,29 @@ table {
   transition:  0.5s;
 }
 
+.swap {
+  display: flex;
+  width: 100%;
+  padding: 1em;
+  background: black;
+  border: 11px solid white;
+}
+
+.swaplabel {
+  color: blue !important;
+  font-family: "Raleway";
+  display: inline-block;
+  padding-left: 1em;
+}
+
+.swaplabeldiv {
+  width: 100%;
+  background: white;
+}
+
 .home {
   display: flex;
+  margin-left: 5em;
   width: 975px;
   float: right;
   flex-wrap: wrap;
@@ -152,17 +287,29 @@ table {
   display: inline-block;
 }
 
-.home div h2 {
-  display: inline-block;
-  float: right;
+.bridgeDiv {
+  background: #0c0c0c;
+  padding: 1em;
+  margin: 1em;
+  color: white;
+}
+
+.bridgeForm {
+  padding: 1em;
+  border: 11px solid white;
+  background: black;
 }
 
 .bridge {
   flex-direction: column;
 }
 
-label {
+.bridge h2 {
   color: white;
+}
+
+.bridge label {
+  color: white !important;
 }
 
 .luckyCard {
@@ -179,12 +326,17 @@ label {
   display: inline-block;
 }
 
+.price {
+  float: right;
+}
+
 .languages {
   display: none;
 }
 
 .lang {
   cursor: pointer;
+  position: absolute;
 }
 
 .cardLeft {
@@ -197,7 +349,11 @@ label {
 
 .usdc {
   float: inherit !important;
+  font-size: 42px;
+  font-family: 'Raleway';
+  font-weight: 500;
   margin: 0;
+  display: inline-block;
 }
 
 #counter {
@@ -217,17 +373,47 @@ label {
 }
 
 .card {
-  width: 420px;
-  height: 160px;
   background: white;
   border-radius: 0.5em;
+  height: 10em;
+  width: 420px;
   padding: 1em;
   margin: 1em;
-  display: inline-block;
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main main main'
+    'menu footer footer footer footer footer';
+  gap: 10px;
 }
 
+.votecard {
+  background: white;
+  border:  1px solid black;
+  --shd: 0 1px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shd,0 1px 4px rgba(0,0,0,.6));
+  border-radius: 0.2em;
+  height: 15em;
+  width: 420px;
+  padding: 1em;
+  margin: 1em;
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main main main'
+    'menu footer footer footer footer footer';
+  gap: 10px;
+}
+
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 { grid-area: main; }
+.item5 { grid-area: footer; }
+
 .cardHeading {
-  font-size: 28px;
+  font-size: 28px !important;
+  font-weight: bold;
+  float: right;
   font-family: Raleway;
 }
 
@@ -239,6 +425,11 @@ label {
   border-radius: 2em;
 }
 
+.swapLeft img {
+  height: 25px !important;
+  width: 25px !important;
+}
+
 .swapLeft span {
   font-weight: bold;
   padding-left: 1em;
@@ -247,13 +438,24 @@ label {
 }
 
 .swapRight {
-  background: blue;
+  background: #06065d;
   border-radius: 2em;
   border: 1px solid white;
-  padding: 1em;
-  color: white;
+  font-family: 'Raleway';
   flex: 30%;
   margin-left: 1em;
+}
+
+.swapHeader {
+  display: flex;
+  color: white;
+  border-bottom: 1px solid white;
+  margin-bottom: 1em;
+  padding: 1em 0.7em;
+}
+
+.swapForm {
+  padding: 1em;
 }
 
 .swapSettings svg {
@@ -278,9 +480,10 @@ label {
   float: right;
 }
 
-.sideNavDiv {
-  display: inline-block;
-  flex: 15%;
+.sideNav {
+  font-family: Raleway;
+  font-weight: bold;
+  color:  white;
 }
 
 .sideNavDiv img {
@@ -289,9 +492,9 @@ label {
 }
 
 .sideNavDiv span {
-    font-weight: bold;
-    font-size: 1.2em;
-    color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: white;
 }
 
 .footerImages li {
@@ -305,6 +508,10 @@ label {
 
 .logoDiv, #nav {
   display: inline-block;
+}
+
+.token {
+  margin-right: 9em;
 }
 
 .tokenAddress {
@@ -382,17 +589,8 @@ footer a {
   display: inline-block;
 }
 
-header {
-  text-align: center;
-}
-
 #filled-basic {
   display: block;
-}
-
-.sideNav {
-  font-family: Raleway;
-  color:  white;
 }
 
 #background-video {
@@ -407,48 +605,107 @@ header {
   z-index: -1;
 }
 
+.convertIcon {
+  display: block;
+  color: white;
+  padding: 1em;
+  margin: 0 auto;
+  font-size: 2em;
+}
+
 .dex {
   width: 80%;
-  padding: 9em;
+  padding: 5em 0em 0em 19em;
   display: flex;
-  width: 80%;
 }
 
 .dex p {
   font-size: 18px;
 }
 
+header {
+  text-align: center;
+}
+
 button {
   background: #0d44ff;
   border: none;
-  display: block;
   color: white;
+  cursor: pointer;
   padding: 1em 2em;
-  margin: 2em;
-  font-size: 1em;
   font-weight: bold;
   font-family: Raleway;
   border: none;
-  border-radius: 0.5em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.connectWalletButton {
+  border-radius: 1em;
+  background: #12299c;
+  width: 90%;
+  margin: 1em;
+}
+
+.addLiquidityButton {
+  padding: 0.5em 2em;
+  margin: 1em;
+  background: #afb9d9;
+  border: 2px solid #2139a1;
+  --shd: 0 1px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shd,0 1px 4px rgba(0,0,0,.6));
+  border-radius: 1em;
+  color: #051652;
+}
+
+.addLiquidityButton:hover {
+  transition: 1s;
+  background-color: white;
+  color: #051652;
+}
+
+.rewardsButton {
+  background-color: #051652;
+  border-radius: 1em;
+  font-size: 1.4em;
+  width: 95%;
+  display: block;
+  --shd: 0 1px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shd,0 1px 4px rgba(0,0,0,.6));
+  padding: 0.7em;
+  margin: 0.8em;
+}
+
+.rewardsButton:hover {
+  transition: 1s;
+  background-color: white;
+  color: #051652;
+}
+
+.rewardsDiv {
+  background: white;
+  margin-bottom: 1em;
+  width: 97%;
+  margin: 1em 1em auto;
+}
+
+.referInvite {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: row;
+  padding: 2px;
+  height: 3em;
+  border: none;
+}
+
+.referrals {
+  background: white;
+  padding: 1em;
+}
+
+.referBenefits {
+  padding: 0em 15em;
 }
 
 .loginNav {
   display: inline-block;
-}
-
-.modalFields div {
-  display: block;
 }
 
 .divButtons {
@@ -457,17 +714,4 @@ button {
 
 .divButtons button {
   margin: 20px;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

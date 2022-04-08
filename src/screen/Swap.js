@@ -8,6 +8,8 @@ import { faCircleDown } from '@fortawesome/free-solid-svg-icons';
 import Duration from './Duration.js'
 import Select from 'react-select'
 import { Sparklines, SparklinesLine } from 'react-sparklines';
+import larecoin from '../larecoin.png'
+import bnb from '../bnb.png'
 
   const options = [
     { value: 'chocolate', label: 'HBAR' },
@@ -29,16 +31,27 @@ import { Sparklines, SparklinesLine } from 'react-sparklines';
     { value: 'strawberry', label: 'XLM' },
     { value: 'strawberry', label: 'XMR' }
   ]
-
+  const options2 = [
+      { value: 'chocolate', label: 'USDC/Coinbase' },
+      { value: 'strawberry', label: 'USDT' },
+      { value: 'vanilla', label: 'LUSD' },
+      { value: 'strawberry', label: 'Debit / Credit' },
+      { value: 'strawberry', label: 'Bank Transfer' }
+    ]
 export default function Swap() {
 
+
+    document.title = "DEX | Swap | Larecoin"
     var now = new Date()
     var time = String(now)
+    var time = time.split(":")[0]
 
   return (
        <div className="home">
+       <div className="swaplabeldiv"><h2 className="swaplabel">SWAP</h2></div>
+       <div className="swap">
          <div className="swapLeft">
-           <span>BNB / LARE</span>
+           <img src={bnb} /><img src={larecoin} className="lareimg" /><span style={{color: 'white'}}>BNB / LARE</span>
            <FontAwesomeIcon icon={faArrowRightArrowLeft} className="arrows" />
            <span className="swapLink">Basic</span>
            <span className="swapLink">TradingView</span>
@@ -66,7 +79,7 @@ export default function Swap() {
            </div>
          </div>
          <div className="swapRight">
-           <div style={{display: 'flex'}}>
+           <div className="swapHeader">
             <div style={{flex: '75%'}}>
              <h4>Swap</h4>
              <p>Trade <b>LARE</b> in an instant</p>
@@ -76,12 +89,15 @@ export default function Swap() {
                <FontAwesomeIcon icon={ faHistory } />
             </div>
            </div>
-           <Select options={options} />
-           <input type="text" />
-           <FontAwesomeIcon icon={ faCircleDown } />
-           <Select options={options} />
-           <input type="text" />
-           <button>Connect Wallet </button>
+           <div className="swapForm">
+             <Select options={options} />
+             <input type="number" />
+             <FontAwesomeIcon icon={ faCircleDown } className="convertIcon" />
+             <Select options={options2} />
+             <input type="number" />
+             <button className="connectWalletButton">Connect Wallet </button>
+           </div>
+         </div>
          </div>
        </div>
   );
